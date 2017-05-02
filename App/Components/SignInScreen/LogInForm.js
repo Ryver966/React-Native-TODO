@@ -8,6 +8,19 @@ import {
 } from 'react-native';
 
 class LogInForm extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.routeScreen = this.routeScreen.bind(this);
+  }
+
+  routeScreen(target) {
+    this.props.navigator.push({
+      name: target
+    })
+  }
+
   render() {
     return(
       <View style={ styles.container }>
@@ -23,13 +36,16 @@ class LogInForm extends Component {
           secureTextEntry
         />
         <View style={ styles.btnContainer }>
-          <TouchableOpacity style={ styles.btn }>
+          <TouchableOpacity 
+            style={ styles.btn }
+            onPress={ this.props.navigator.push({ id: 'myBoards' }) }
+            >
             <Text style={ styles.btnTxt }>SIGN IN</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={ () => this.props.navigator.push({ id: 'signUpScreen' }) }>
             <Text style={ styles.logInFormBtnTxt }>SIGN UP</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={ () => this.props.navigator.push({ id:'forgotPassScreen' }) }>
             <Text style={ styles.logInFormBtnTxt }>FORGOT PASSWORD?</Text>
           </TouchableOpacity>
         </View>
@@ -54,13 +70,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#0052cc',
     height: 40,
     paddingVertical: 10,
-    
+    marginBottom: 5
   },
   btnTxt: {
     textAlign: 'center',
     color: '#fff'
   },
   logInFormBtnTxt: {
-    fontSize: 12
+    fontSize: 12,
+    color: '#fff'
   }
 })
