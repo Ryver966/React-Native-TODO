@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import Board from './Board';
+import UserPanelBelt from '../UserPanelBelt/UserPanelBelt';
 
 class MyBoards extends Component {
 
@@ -30,12 +31,14 @@ class MyBoards extends Component {
         { task: 'task 1' },
         { task: 'task 2' },
         { task: 'task 3' },
-        { task: 'task 4' }
+        { task: 'task 4' },
+        { task: 'task 5' }
       ]
     }
 
     return(
       <View style={ styles.container }>
+        <UserPanelBelt navigator={ this.props.navigator } />
         <Text style={ styles.title1 }>{ `Hello ${ this.state.user.name }!` }</Text>
         <View style={ styles.addBoardContainer }>
           <TextInput
@@ -68,7 +71,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     textAlign: 'center',
-    marginBottom: 30
+    marginBottom: 30,
+    marginTop: 20
   },
   btnTxt: {
     textAlign: 'center',

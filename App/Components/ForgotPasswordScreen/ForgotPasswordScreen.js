@@ -6,8 +6,36 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import { firebaseResetPassword } from '../../mobX/Actions';
 
 class ForgotPasswordScreen extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.resetPassword = this.resetPassword.bind(this);
+
+    this.state = {
+      email: null
+    }
+  }
+
+  resetPassword(email) {
+    if(email) {
+      firebaseResetPassword(email)
+      .then(() => {
+        this.props.navigator.push({ id: 'signInScreen' })
+        console.warn('New password send!')
+      })
+      .catch((error) => {
+        console.warn(error.message)
+      })
+    } else {
+      console.warn('Check email field.')
+    }
+  }
+
+
   render() {
     return(
       <View style={ styles.container }>
@@ -16,8 +44,9 @@ class ForgotPasswordScreen extends Component {
           style={ styles.input }
           underlineColorAndroid='transparent'
           placeholder='E-mail'
+          onChange={ (e) => this.setState({ email: e.nativeEvent.text }) }
         />
-        <TouchableOpacity style={ styles.btn }>
+        <TouchableOpacity style={ styles.btn } onPress={ () => this.resetPassword(this.state.email) }>
           <Text style={ styles.btnTxt }>SEND NEW PASSWORD</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={ () => this.props.navigator.push({ id: 'signInScreen' }) }>

@@ -6,8 +6,41 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import { firebaseSignUp } from '../../mobX/Actions';
 
 class SignUpScreen extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.onChange = this.onChange.bind(this);
+    this.signUp = this.signUp.bind(this);
+
+    this.state = {
+      email: null,
+      password: null,
+      confPassword: null
+    }
+  }
+
+  signUp(email, password, confPassword) {
+    if(email && password && confPassword && password === confPassword) {
+      firebaseSignUp(email, password)
+        .then(() => {
+        this.props.navigator.push({ id: 'myBoards' })
+      })
+      .catch((error) => {
+        console.warn(error.message);
+      })
+    } else {
+      console.warn('Check all fields')
+    }
+  }
+
+  onChange(fieldName, value) {
+    this.setState({ [fieldName]: value })
+  }
+
   render() {
     return(
       <View style={ styles.container }>
@@ -16,25 +49,23 @@ class SignUpScreen extends Component {
           style={ styles.input }
           underlineColorAndroid='transparent'
           placeholder='E-mail'
-        />
-        <TextInput
-          style={ styles.input }
-          underlineColorAndroid='transparent'
-          placeholder='Name'
+          onChange={ (e) => this.onChange('email', e.nativeEvent.text) }
         />
         <TextInput
           style={ styles.input }
           underlineColorAndroid='transparent'
           placeholder='Password'
           secureTextEntry
+          onChange={ (e) => this.onChange('password', e.nativeEvent.text) }
         />
         <TextInput
           style={ styles.input }
           underlineColorAndroid='transparent'
           placeholder='Confirm password'
           secureTextEntry
+          onChange={ (e) => this.onChange('confPassword', e.nativeEvent.text) }
         />
-        <TouchableOpacity style={ styles.btn }>
+        <TouchableOpacity style={ styles.btn } onPress={ () => this.signUp(this.state.email, this.state.password, this.state.confPassword) }>
           <Text style={ styles.btnTxt }>SIGN UP</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={ () => this.props.navigator.push({ id: 'signInScreen' }) }>

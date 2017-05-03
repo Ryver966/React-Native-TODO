@@ -6,19 +6,38 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import { firebaseSignIn } from '../../mobX/Actions';
 
 class LogInForm extends Component {
 
   constructor(props) {
     super(props);
 
-    this.routeScreen = this.routeScreen.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.signIn = this.signIn.bind(this);
+
+    this.state = {
+      email: null,
+      password: null
+    }
   }
 
-  routeScreen(target) {
-    this.props.navigator.push({
-      name: target
-    })
+  signIn(email, password) {
+    if(email && password) {
+      firebaseSignIn(email, password)
+        .then(() => {
+          this.props.navigator.push({ id: 'myBoards' })
+        })
+        .catch((error) => {
+          console.warn(error.message);
+        })
+    } else {
+      console.warn('Check all fields')
+    }
+  }
+
+  onChange(fieldName, value) {
+    this.setState({ [fieldName]: value })
   }
 
   render() {
@@ -28,17 +47,19 @@ class LogInForm extends Component {
           style={ styles.input }
           underlineColorAndroid='transparent'
           placeholder='E-mail'
+          onChange={ (e) => this.onChange('email', e.nativeEvent.text) }
         />
         <TextInput
           style={ styles.input }
           underlineColorAndroid='transparent'
           placeholder='Password'
           secureTextEntry
+          onChange={ (e) => this.onChange('password', e.nativeEvent.text) }
         />
         <View style={ styles.btnContainer }>
           <TouchableOpacity 
             style={ styles.btn }
-            onPress={ this.props.navigator.push({ id: 'myBoards' }) }
+            onPress={ () => this.signIn(this.state.email, this.state.password) }
             >
             <Text style={ styles.btnTxt }>SIGN IN</Text>
           </TouchableOpacity>
