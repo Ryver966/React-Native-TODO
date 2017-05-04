@@ -4,8 +4,11 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
+import { firebaseAddNewBoard } from '../../mobX/Actions';
+import { firebaseDisplayBoards } from '../../mobX/Actions';
 
 import Board from './Board';
 import UserPanelBelt from '../UserPanelBelt/UserPanelBelt';
@@ -15,43 +18,57 @@ class MyBoards extends Component {
   constructor(props) {
     super(props);
 
+    this.addBoard = this.addBoard.bind(this);
+
     this.state = {
-      user: {
-        name: 'Random User Name'
-      }
+      boardName: null,
+      boards: []
+    }
+  }
+
+  componentWillMount() {
+    firebaseDisplayBoards(this.props.user.uid).on('child_added', (snap) => {
+      const newArray = this.state.boards.slice();
+      newArray.push(snap.val());
+      this.setState({ boards: newArray })
+    })
+  }
+
+  addBoard(userUid, boardName) {
+    if(this.state.boardName) {
+      firebaseAddNewBoard(userUid, boardName);
+      this.setState({
+        boardName: null
+      })
+    } else {
+      console.warn('Enter board name!')
     }
   }
 
   render() {
-
-    const board = {
-      name: 'Test board',
-      boardOwner: this.state.user.name,
-      tasks: [
-        { task: 'task 1' },
-        { task: 'task 2' },
-        { task: 'task 3' },
-        { task: 'task 4' },
-        { task: 'task 5' }
-      ]
-    }
+    
+    const boards = this.state.boards.map((board) => 
+      <Board board={ board } />
+    )
 
     return(
-      <View style={ styles.container }>
+      <ScrollView style={ styles.container }>
         <UserPanelBelt navigator={ this.props.navigator } />
-        <Text style={ styles.title1 }>{ `Hello ${ this.state.user.name }!` }</Text>
+        <Text style={ styles.title1 }>Hello!</Text>
         <View style={ styles.addBoardContainer }>
           <TextInput
             underlineColorAndroid='transparent'
             style={ styles.addBoardField }
             placeholder="New Board's Name"
+            onChange={ (e) => this.setState({ boardName: e.nativeEvent.text }) }
+            value={ this.state.boardName }
           />
-          <TouchableOpacity style={ styles.addBoardBtn }>
+          <TouchableOpacity style={ styles.addBoardBtn } onPress={ () => this.addBoard(this.props.user.uid, this.state.boardName) }>
             <Text style={ styles.btnTxt }>ADD</Text>
           </TouchableOpacity>
         </View>
-        <Board board={ board } />
-      </View>
+        { boards }
+      </ScrollView>
     )
   }
 }
@@ -62,7 +79,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
     backgroundColor: '#778899',
     padding: 20
   },

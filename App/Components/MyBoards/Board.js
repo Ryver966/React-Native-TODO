@@ -12,7 +12,6 @@ class Board extends Component{
     return(
       <View style={ styles.boardBtn }>
         <Text style={ styles.boardName }>{ this.props.board.name }</Text>
-        <Text style={ styles.tasksCount }>{ this.props.board.tasks.length }</Text>
       </View>
     )
   }
@@ -32,9 +31,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   boardName: {
-    flex: 0.9,
+    flex: 1,
   },
-  tasksCount: {
-    flex: 0.1,
-  }
 })

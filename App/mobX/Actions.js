@@ -25,3 +25,14 @@ export function firebaseSignOut() {
 export function firebaseResetPassword(emailAdress) {
   return firebase.auth().sendPasswordResetEmail(emailAdress)
 }
+
+export function firebaseAddNewBoard(userUid, boardName) {
+  firebase.database().ref(`Users/${ userUid }/boards/${ boardName }`).set({
+    name: boardName,
+    id: Date.now()
+  })
+}
+
+export function firebaseDisplayBoards(userUid) {
+  return firebase.database().ref(`Users/${ userUid }/boards`)
+}

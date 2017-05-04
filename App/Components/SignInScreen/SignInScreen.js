@@ -8,6 +8,7 @@ import {
 import LogInForm from './LogInForm';
 
 class SignInScreen extends Component {
+
   render() {
     return(
       <View style={ styles.signInContainer }>
