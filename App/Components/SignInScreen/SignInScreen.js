@@ -16,7 +16,10 @@ class SignInScreen extends Component {
           <Text style={ styles.title1 }>Organizer App</Text>
         </View>
         <View stye={ styles.signInForm }>
-          <LogInForm navigator={ this.props.navigator } />
+          <LogInForm 
+            navigator={ this.props.navigator } 
+            user={ this.props.user }
+          />
         </View>
       </View>
     )

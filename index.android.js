@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-import store from './App/mobX/listStore';
 
 import App from './App/Components/App';
 

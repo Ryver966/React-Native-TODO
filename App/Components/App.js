@@ -35,7 +35,6 @@ class App extends Component {
         })
       } else {
         this.setState({ 
-          user: null,
           isLoading: false
         })
       }

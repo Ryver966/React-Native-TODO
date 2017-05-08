@@ -26,7 +26,7 @@ class MyBoards extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     firebaseDisplayBoards(this.props.user.uid).on('child_added', (snap) => {
       const newArray = this.state.boards.slice();
       newArray.push(snap.val());
