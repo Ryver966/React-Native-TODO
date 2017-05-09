@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
-import { firebaseResetPassword } from '../../mobX/Actions';
+import { firebaseResetPassword } from '../../Actions/Actions';
 
 class ForgotPasswordScreen extends Component {
 

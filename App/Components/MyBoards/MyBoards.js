@@ -7,8 +7,12 @@ import {
   TouchableOpacity,
   ScrollView
 } from 'react-native';
-import { firebaseAddNewBoard } from '../../mobX/Actions';
-import { firebaseDisplayBoards } from '../../mobX/Actions';
+import { 
+  firebaseAddNewBoard,
+  firebaseDisplayBoards, 
+  firebaseAuth,
+  firebaseDeleteBoard 
+} from '../../Actions/Actions';
 
 import Board from './Board';
 import UserPanelBelt from '../UserPanelBelt/UserPanelBelt';
@@ -19,6 +23,8 @@ class MyBoards extends Component {
     super(props);
 
     this.addBoard = this.addBoard.bind(this);
+    this.deleteBoard = this.deleteBoard.bind(this);
+    this.displayBoards = this.displayBoards.bind(this); 
 
     this.state = {
       boardName: null,
@@ -26,11 +32,29 @@ class MyBoards extends Component {
     }
   }
 
-  componentDidMount() {
+  displayBoards() {
+    const newArray = [];
+
     firebaseDisplayBoards(this.props.user.uid).on('child_added', (snap) => {
-      const newArray = this.state.boards.slice();
       newArray.push(snap.val());
-      this.setState({ boards: newArray })
+    })
+
+    this.setState({ boards: newArray })
+  }
+
+  deleteBoard(boardName) {
+    this.setState({ boards: [] })
+    firebaseDeleteBoard(this.props.user.uid, boardName);
+    this.displayBoards();
+  }
+
+  componentWillMount() {
+    firebaseAuth.onAuthStateChanged((user) => {
+      if(user) {
+        this.displayBoards();
+      } else {
+        this.props.navigator.push({ id: 'signInScreen' })
+      }
     })
   }
 
@@ -48,13 +72,12 @@ class MyBoards extends Component {
   render() {
     
     const boards = this.state.boards.map((board) => 
-      <Board board={ board } />
+      <Board board={ board } deleteBoard={ this.deleteBoard }/>
     )
 
     return(
-      <ScrollView style={ styles.container }>
+      <View style={ styles.container }>
         <UserPanelBelt navigator={ this.props.navigator } />
-        <Text style={ styles.title1 }>Hello!</Text>
         <View style={ styles.addBoardContainer }>
           <TextInput
             underlineColorAndroid='transparent'
@@ -67,8 +90,10 @@ class MyBoards extends Component {
             <Text style={ styles.btnTxt }>ADD</Text>
           </TouchableOpacity>
         </View>
-        { boards }
-      </ScrollView>
+        <ScrollView>
+          { boards }
+        </ScrollView>
+      </View>
     )
   }
 }
@@ -82,14 +107,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#778899',
     padding: 20
   },
-  title1: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: '#fff',
-    textAlign: 'center',
-    marginBottom: 30,
-    marginTop: 20
-  },
   btnTxt: {
     textAlign: 'center',
     color: '#fff',
@@ -97,7 +114,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   addBoardContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 10,
+    paddingBottom: 20
   },
   addBoardField: {
     flex: 0.8,

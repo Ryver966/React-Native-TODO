@@ -36,3 +36,9 @@ export function firebaseAddNewBoard(userUid, boardName) {
 export function firebaseDisplayBoards(userUid) {
   return firebase.database().ref(`Users/${ userUid }/boards`)
 }
+
+export const firebaseAuth = firebase.auth()
+
+export function firebaseDeleteBoard(userUid, boardName) {
+  firebase.database().ref(`Users/${ userUid }/boards/${ boardName }`).set({})
+}

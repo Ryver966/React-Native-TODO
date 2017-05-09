@@ -2,17 +2,24 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  TextInput,
-  View,
   TouchableOpacity
 } from 'react-native';
 
 class Board extends Component{
   render() {
     return(
-      <View style={ styles.boardBtn }>
+      <TouchableOpacity 
+        key={ this.props.board.id }
+        style={ styles.boardBtn }
+      >
         <Text style={ styles.boardName }>{ this.props.board.name }</Text>
-      </View>
+        <TouchableOpacity 
+          style={ styles.deleteBtn }
+          onPress={ () => this.props.deleteBoard(this.props.board.name) }
+        >
+          <Text style={ styles.btnTxt }>X</Text>
+        </TouchableOpacity>
+      </TouchableOpacity>
     )
   }
 }
@@ -24,13 +31,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     height: 50,
-    marginTop: 20,
-    padding: 13,
+    marginBottom: 20,
+    padding: 10,
     borderWidth: 2,
-    borderColor: '#DAA520',
-    borderRadius: 10,
+    borderColor: '#2980b9',
+    borderRadius: 10
   },
   boardName: {
     flex: 1,
+    textAlign: 'center',
+    fontSize: 20,
+    color: '#2980b9'
   },
+  deleteBtn: {
+    marginTop: -2.5
+  },
+  btnTxt: {
+    fontSize: 20
+  }
 })

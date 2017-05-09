@@ -6,7 +6,7 @@ import {
   View,
   Navigator
 } from 'react-native';
-import * as firebase from 'firebase';
+import { firebaseAuth } from '../Actions/Actions';
 
 import SignInScreen from './SignInScreen/SignInScreen';
 import SignUpScreen from './SignUpScreen/SignUpScreen';
@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    firebase.auth().onAuthStateChanged((user) => {
+    firebaseAuth.onAuthStateChanged((user) => {
       if(user) {
         this.setState({ 
           user: user ,

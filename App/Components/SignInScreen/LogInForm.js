@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
-import { firebaseSignIn } from '../../mobX/Actions';
+import { firebaseSignIn } from '../../Actions/Actions';
 
 class LogInForm extends Component {
 

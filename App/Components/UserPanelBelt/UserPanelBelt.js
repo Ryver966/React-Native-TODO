@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
-import { firebaseSignOut } from '../../mobX/Actions';
+import { firebaseSignOut } from '../../Actions/Actions';
 
 class UserPanelBelt extends Component {
 
@@ -35,6 +35,7 @@ class UserPanelBelt extends Component {
         >
           <Text style={ styles.btnTxt }>SIGN OUT</Text>
         </TouchableOpacity>
+        <Text style={ styles.appTitle }>Organizer</Text>
       </View>
     )
   }
@@ -45,7 +46,7 @@ export default UserPanelBelt;
 const styles = StyleSheet.create({
   container: {
     height: 70,
-    backgroundColor: '#B8B8B8',
+    backgroundColor: '#2980b9',
     alignSelf: 'stretch',
     flexDirection: 'row',
     marginLeft: -20,
@@ -53,18 +54,24 @@ const styles = StyleSheet.create({
     marginRight: -20,
     paddingLeft: 20,
     paddingRight: 20,
-    paddingTop: 10,
-    borderBottomWidth: 2,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
+    paddingTop: 10
   },
   btn: {
     height: 30,
-    paddingVertical: 10,
-    marginBottom: 5
+    padding: 5,
+    marginBottom: 5,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginTop: 10
   },
   btnTxt: {
-    textAlign: 'center',
-    color: '#fff'
+    textAlign: 'center'
   },
+  appTitle: {
+    textAlign: 'center',
+    flex: 1,
+    fontSize: 35,
+    fontWeight: 'bold',
+    color: '#fff'
+  }
 })

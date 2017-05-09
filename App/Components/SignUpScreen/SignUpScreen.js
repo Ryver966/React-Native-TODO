@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
-import { firebaseSignUp } from '../../mobX/Actions';
+import { firebaseSignUp } from '../../Actions/Actions';
 
 class SignUpScreen extends Component {
 
