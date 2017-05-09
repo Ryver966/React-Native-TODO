@@ -28,18 +28,18 @@ class MyBoards extends Component {
 
     this.state = {
       boardName: null,
-      boards: []
+      boards: [],
     }
   }
 
   displayBoards() {
     const newArray = [];
-
+    
     firebaseDisplayBoards(this.props.user.uid).on('child_added', (snap) => {
       newArray.push(snap.val());
     })
 
-    this.setState({ boards: newArray })
+    this.setState({ boards: newArray });
   }
 
   deleteBoard(boardName) {
@@ -51,9 +51,11 @@ class MyBoards extends Component {
   componentWillMount() {
     firebaseAuth.onAuthStateChanged((user) => {
       if(user) {
-        this.displayBoards();
-      } else {
-        this.props.navigator.push({ id: 'signInScreen' })
+        const newArray = [];
+        firebaseDisplayBoards(user.uid).on('child_added', (snap) => {
+          newArray.push(snap.val())
+          this.setState({ boards: newArray })
+        })
       }
     })
   }
@@ -64,13 +66,14 @@ class MyBoards extends Component {
       this.setState({
         boardName: null
       })
+      this.displayBoards();
     } else {
       console.warn('Enter board name!')
     }
   }
 
   render() {
-    
+    console.warn(this.state.boards)
     const boards = this.state.boards.map((board) => 
       <Board board={ board } deleteBoard={ this.deleteBoard }/>
     )

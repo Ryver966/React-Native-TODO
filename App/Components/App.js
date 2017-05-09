@@ -12,6 +12,7 @@ import SignInScreen from './SignInScreen/SignInScreen';
 import SignUpScreen from './SignUpScreen/SignUpScreen';
 import ForgotPasswordScreen from './ForgotPasswordScreen/ForgotPasswordScreen';
 import MyBoards from './MyBoards/MyBoards';
+import LoadingScreen from './LoadingScreen/LoadingScreen'
 
 class App extends Component {
 
@@ -56,7 +57,7 @@ class App extends Component {
 
   render() {
     if(this.state.isLoading) {
-      return <View style={ styles.appContainer }><Text>loading...</Text></View>
+      return <LoadingScreen />
     } else if(this.state.user && !this.state.isLoading) {
       return (<View style={ styles.appContainer }>
         <Navigator
