@@ -9,7 +9,6 @@ class Board extends Component{
   render() {
     return(
       <TouchableOpacity 
-        key={ this.props.board.id }
         style={ styles.boardBtn }
       >
         <Text style={ styles.boardName }>{ this.props.board.name }</Text>

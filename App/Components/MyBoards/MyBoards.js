@@ -13,10 +13,12 @@ import {
   firebaseAuth,
   firebaseDeleteBoard 
 } from '../../Actions/Actions';
+import { observer } from 'mobx-react';
 
 import Board from './Board';
 import UserPanelBelt from '../UserPanelBelt/UserPanelBelt';
 
+@observer
 class MyBoards extends Component {
 
   constructor(props) {
@@ -24,40 +26,18 @@ class MyBoards extends Component {
 
     this.addBoard = this.addBoard.bind(this);
     this.deleteBoard = this.deleteBoard.bind(this);
-    this.displayBoards = this.displayBoards.bind(this); 
 
     this.state = {
       boardName: null,
-      boards: [],
+      boards: []
     }
   }
 
-  displayBoards() {
-    const newArray = [];
-    
-    firebaseDisplayBoards(this.props.user.uid).on('child_added', (snap) => {
-      newArray.push(snap.val());
-    })
-
-    this.setState({ boards: newArray });
-  }
 
   deleteBoard(boardName) {
     this.setState({ boards: [] })
-    firebaseDeleteBoard(this.props.user.uid, boardName);
-    this.displayBoards();
-  }
-
-  componentWillMount() {
-    firebaseAuth.onAuthStateChanged((user) => {
-      if(user) {
-        const newArray = [];
-        firebaseDisplayBoards(user.uid).on('child_added', (snap) => {
-          newArray.push(snap.val())
-          this.setState({ boards: newArray })
-        })
-      }
-    })
+    firebaseDeleteBoard(this.props.store.user.uid, boardName);
+    this.props.store.setBoards(this.props.store.user.uid);
   }
 
   addBoard(userUid, boardName) {
@@ -66,16 +46,15 @@ class MyBoards extends Component {
       this.setState({
         boardName: null
       })
-      this.displayBoards();
+     this.props.store.setBoards(this.props.store.user.uid)
     } else {
       console.warn('Enter board name!')
     }
   }
 
   render() {
-    console.warn(this.state.boards)
-    const boards = this.state.boards.map((board) => 
-      <Board board={ board } deleteBoard={ this.deleteBoard }/>
+    const boards = this.props.store.boards.map((board, index) => 
+      <Board board={ board } key={ index } deleteBoard={ this.deleteBoard }/>
     )
 
     return(
@@ -89,7 +68,7 @@ class MyBoards extends Component {
             onChange={ (e) => this.setState({ boardName: e.nativeEvent.text }) }
             value={ this.state.boardName }
           />
-          <TouchableOpacity style={ styles.addBoardBtn } onPress={ () => this.addBoard(this.props.user.uid, this.state.boardName) }>
+          <TouchableOpacity style={ styles.addBoardBtn } onPress={ () => this.addBoard(this.props.store.user.uid, this.state.boardName) }>
             <Text style={ styles.btnTxt }>ADD</Text>
           </TouchableOpacity>
         </View>

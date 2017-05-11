@@ -6,7 +6,7 @@ import {
   View,
   Navigator
 } from 'react-native';
-import { firebaseAuth } from '../Actions/Actions';
+import { observer } from 'mobx-react';
 
 import SignInScreen from './SignInScreen/SignInScreen';
 import SignUpScreen from './SignUpScreen/SignUpScreen';
@@ -14,7 +14,8 @@ import ForgotPasswordScreen from './ForgotPasswordScreen/ForgotPasswordScreen';
 import MyBoards from './MyBoards/MyBoards';
 import LoadingScreen from './LoadingScreen/LoadingScreen'
 
-class App extends Component {
+@observer
+class App extends Component{
 
   constructor(props) {
     super(props);
@@ -22,43 +23,27 @@ class App extends Component {
     this.renderScene = this.renderScene.bind(this);
 
     this.state = {
-      user: null,
-      isLoading: true
+      isLoading: false
     }
-  }
-
-  componentWillMount() {
-    firebaseAuth.onAuthStateChanged((user) => {
-      if(user) {
-        this.setState({ 
-          user: user ,
-          isLoading: false
-        })
-      } else {
-        this.setState({ 
-          isLoading: false
-        })
-      }
-    })
   }
 
   renderScene(route, navigator) {
     switch(route.id){
       case 'signInScreen':
-      return <SignInScreen user={ this.state.user } navigator={ navigator } title='signInScreen' />
+      return <SignInScreen navigator={ navigator } title='signInScreen' />
       case 'signUpScreen':
       return <SignUpScreen navigator={ navigator } title='signUpScreen' />
       case 'forgotPassScreen':
       return <ForgotPasswordScreen navigator={ navigator } title='forgotPassScreen' />
       case 'myBoards':
-      return <MyBoards user={ this.state.user } navigator={ navigator } title='myBoards' />
+      return <MyBoards store={ this.props.store } navigator={ navigator } title='myBoards' />
     }
   }
 
   render() {
-    if(this.state.isLoading) {
+    if(this.props.store.isLoading) {
       return <LoadingScreen />
-    } else if(this.state.user && !this.state.isLoading) {
+    } else if(this.props.store.user && !this.props.store.isLoading) {
       return (<View style={ styles.appContainer }>
         <Navigator
           initialRoute={{ id: 'myBoards' }}

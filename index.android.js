@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View
 } from 'react-native';
+import store from './App/mobX/store';
 
 import App from './App/Components/App';
 
@@ -11,7 +12,7 @@ export default class ReactNativeTodo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <App />
+        <App store={ store }/>
       </View>
     );
   }

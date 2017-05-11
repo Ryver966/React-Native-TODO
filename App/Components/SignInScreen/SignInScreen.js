@@ -18,7 +18,6 @@ class SignInScreen extends Component {
         <View stye={ styles.signInForm }>
           <LogInForm 
             navigator={ this.props.navigator } 
-            user={ this.props.user }
           />
         </View>
       </View>
