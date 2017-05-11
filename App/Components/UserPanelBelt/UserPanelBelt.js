@@ -19,7 +19,7 @@ class UserPanelBelt extends Component {
   signOut() {
     firebaseSignOut()
     .then(() => {
-      this.props.navigator.push({ id: 'signInScreen' })
+      this.props.navigator.replace({ id: 'signInScreen' })
     })
     .catch((error) => {
       console.warn(error.message)

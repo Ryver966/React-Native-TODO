@@ -27,7 +27,7 @@ class LogInForm extends Component {
     if(email && password) {
       firebaseSignIn(email, password)
         .then(() => {
-          this.props.navigator.push({ id: 'myBoards' })
+          this.props.navigator.replace({ id: 'myBoards' })
         })
         .catch((error) => {
           console.warn(error.message);
