@@ -35,7 +35,7 @@ class UserPanelBelt extends Component {
         >
           <Text style={ styles.btnTxt }>SIGN OUT</Text>
         </TouchableOpacity>
-        <Text style={ styles.appTitle }>Organizer</Text>
+        <Text style={ styles.appTitle }>{ this.props.title }</Text>
       </View>
     )
   }

@@ -4,12 +4,27 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native';
+import { observer } from 'mobx-react';
 
+@observer
 class Board extends Component{
+
+  constructor(props) {
+    super(props);
+
+    this.goToBoard = this.goToBoard.bind(this);
+  }
+
+  goToBoard() {
+    this.props.store.setSelectedBoard(this.props.board.name);
+    this.props.navigator.push({ id: 'taskList' })
+  }
+
   render() {
     return(
       <TouchableOpacity 
         style={ styles.boardBtn }
+        onPress={ () => this.goToBoard() }
       >
         <Text style={ styles.boardName }>{ this.props.board.name }</Text>
         <TouchableOpacity 

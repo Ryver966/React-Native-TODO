@@ -39,6 +39,14 @@ export function firebaseDisplayBoards(userUid) {
 
 export const firebaseAuth = firebase.auth()
 
-export function firebaseDeleteBoard(userUid, boardName) {
-  firebase.database().ref(`Users/${ userUid }/boards/${ boardName }`).set({})
+export function firebaseGetBoard(userUid, boardName) {
+  return firebase.database().ref(`Users/${ userUid }/boards/${ boardName }`)
+}
+
+export function firebaseDisplayTasks(userUid, boardName) {
+  return firebase.database().ref(`Users/${ userUid }/boards/${ boardName }/tasks`)
+}
+
+export function firebaseGetTask(userUid, boardName, taskName) {
+  return firebase.database().ref(`Users/${ userUid }/boards/${ boardName }/tasks/${ taskName }`)
 }

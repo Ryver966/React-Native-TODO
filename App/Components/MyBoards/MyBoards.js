@@ -8,10 +8,9 @@ import {
   ScrollView
 } from 'react-native';
 import { 
-  firebaseAddNewBoard,
   firebaseDisplayBoards, 
   firebaseAuth,
-  firebaseDeleteBoard 
+  firebaseGetBoard 
 } from '../../Actions/Actions';
 import { observer } from 'mobx-react';
 
@@ -36,13 +35,16 @@ class MyBoards extends Component {
 
   deleteBoard(boardName) {
     this.setState({ boards: [] })
-    firebaseDeleteBoard(this.props.store.user.uid, boardName);
+    firebaseGetBoard(this.props.store.user.uid, boardName).set({});
     this.props.store.setBoards(this.props.store.user.uid);
   }
 
-  addBoard(userUid, boardName) {
+  addBoard(boardName) {
     if(this.state.boardName) {
-      firebaseAddNewBoard(userUid, boardName);
+      firebaseGetBoard(this.props.store.user.uid, boardName).set({
+        name: boardName,
+        id: Date.now()
+      });
       this.setState({
         boardName: null
       })
@@ -54,12 +56,21 @@ class MyBoards extends Component {
 
   render() {
     const boards = this.props.store.boards.map((board, index) => 
-      <Board board={ board } key={ index } deleteBoard={ this.deleteBoard }/>
+      <Board 
+        board={ board } 
+        key={ index } 
+        deleteBoard={ this.deleteBoard }
+        navigator={ this.props.navigator }
+        store={ this.props.store }
+      />
     )
 
     return(
       <View style={ styles.container }>
-        <UserPanelBelt navigator={ this.props.navigator } />
+        <UserPanelBelt 
+          navigator={ this.props.navigator }
+          title={ 'Organizer' } 
+        />
         <View style={ styles.addBoardContainer }>
           <TextInput
             underlineColorAndroid='transparent'
@@ -68,7 +79,10 @@ class MyBoards extends Component {
             onChange={ (e) => this.setState({ boardName: e.nativeEvent.text }) }
             value={ this.state.boardName }
           />
-          <TouchableOpacity style={ styles.addBoardBtn } onPress={ () => this.addBoard(this.props.store.user.uid, this.state.boardName) }>
+          <TouchableOpacity 
+            style={ styles.addBoardBtn } 
+            onPress={ () => this.addBoard(this.state.boardName) }
+          >
             <Text style={ styles.btnTxt }>ADD</Text>
           </TouchableOpacity>
         </View>

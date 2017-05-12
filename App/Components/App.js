@@ -12,7 +12,8 @@ import SignInScreen from './SignInScreen/SignInScreen';
 import SignUpScreen from './SignUpScreen/SignUpScreen';
 import ForgotPasswordScreen from './ForgotPasswordScreen/ForgotPasswordScreen';
 import MyBoards from './MyBoards/MyBoards';
-import LoadingScreen from './LoadingScreen/LoadingScreen'
+import LoadingScreen from './LoadingScreen/LoadingScreen';
+import TaskList from './TaskList/TaskList';
 
 @observer
 class App extends Component{
@@ -37,6 +38,8 @@ class App extends Component{
       return <ForgotPasswordScreen navigator={ navigator } title='forgotPassScreen' />
       case 'myBoards':
       return <MyBoards store={ this.props.store } navigator={ navigator } title='myBoards' />
+      case 'taskList':
+      return <TaskList store={ this.props.store } navigator={ navigator } title='taskList' />
     }
   }
 
