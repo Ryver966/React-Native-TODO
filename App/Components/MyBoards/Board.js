@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 2,
     borderColor: '#2980b9',
-    borderRadius: 10
+    borderRadius: 10,
+    flex: 1,
   },
   boardName: {
     flex: 1,

@@ -99,7 +99,6 @@ export default MyBoards;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
     backgroundColor: '#778899',
     padding: 20
   },
@@ -124,5 +123,5 @@ const styles = StyleSheet.create({
     height: 40,
     flex: 0.2,
     paddingTop: 2.5
-  }
+  },
 })

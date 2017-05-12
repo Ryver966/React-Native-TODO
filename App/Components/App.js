@@ -31,7 +31,7 @@ class App extends Component{
   renderScene(route, navigator) {
     switch(route.id){
       case 'signInScreen':
-      return <SignInScreen navigator={ navigator } title='signInScreen' />
+      return <SignInScreen store={ this.props.store } navigator={ navigator } title='signInScreen' />
       case 'signUpScreen':
       return <SignUpScreen navigator={ navigator } title='signUpScreen' />
       case 'forgotPassScreen':

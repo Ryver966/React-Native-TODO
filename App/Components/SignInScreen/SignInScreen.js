@@ -17,7 +17,8 @@ class SignInScreen extends Component {
         </View>
         <View stye={ styles.signInForm }>
           <LogInForm 
-            navigator={ this.props.navigator } 
+            navigator={ this.props.navigator }
+            store={ this.props.store } 
           />
         </View>
       </View>

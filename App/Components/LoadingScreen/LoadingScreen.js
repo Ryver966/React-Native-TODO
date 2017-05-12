@@ -10,9 +10,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 class LoadingScreen extends Component {
   render() {
     return(
-      <View style={ styles.container }>
-        <Spinner visible={ true } color='#2980b9' size='large' />
-      </View>
+      <Spinner visible={ true } color='#2980b9' size='large' />
     )
   }
 }
@@ -20,9 +18,5 @@ class LoadingScreen extends Component {
 export default LoadingScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+
 })

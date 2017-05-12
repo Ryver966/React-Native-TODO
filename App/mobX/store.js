@@ -36,6 +36,10 @@ export class Store {
       this.tasks = array
     })
   }
+
+  setLoading() {
+    this.isLoading = !this.isLoading
+  }
 }
 
 const store = new Store
@@ -45,7 +49,7 @@ export default store;
 firebaseAuth.onAuthStateChanged((user) => {
   if(user) {
     store.user = user
-    store.isLoading = false
+   store.isLoading = false
     store.setBoards(user.uid)
   } else {
     store.isLoading = false

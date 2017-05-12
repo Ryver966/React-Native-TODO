@@ -15,10 +15,6 @@ class Task extends Component{
 
     this.setTaskState = this.setTaskState.bind(this);
 
-    this.state = {
-      //taskState: this.props.task.completed
-    }
-
   }
 
   setTaskState() {
@@ -53,7 +49,6 @@ const styles = StyleSheet.create({
   taskContainer: {
     flexDirection: 'row',
     backgroundColor: '#fff',
-    height: 50,
     marginBottom: 20,
     padding: 10,
     borderWidth: 2,

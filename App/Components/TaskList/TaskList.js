@@ -43,7 +43,6 @@ class TaskList extends Component {
 
   componentWillMount() {
     this.props.store.setTasks(this.props.store.user.uid);
-    console.log(this.props.store.tasks)
   }
 
   render() {
@@ -75,7 +74,7 @@ class TaskList extends Component {
             style={ styles.addTaskBtn } 
             onPress={ () => this.addTask(this.state.taskName) }
           >
-            <Text style={ styles.btnTxt }>ADD</Text>
+            <Text style={ styles.btnTxt }>+</Text>
           </TouchableOpacity>
         </View>
         <ScrollView>
@@ -108,12 +107,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#32CD32',
     height: 40,
     flex: 0.2,
-    paddingTop: 2.5
+    justifyContent: 'center',
   },
   btnTxt: {
     textAlign: 'center',
     color: '#fff',
-    fontSize: 25,
+    fontSize: 40,
     fontWeight: 'bold',
   },
 })

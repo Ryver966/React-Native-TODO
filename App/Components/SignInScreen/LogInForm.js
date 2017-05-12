@@ -7,8 +7,11 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { firebaseSignIn } from '../../Actions/Actions';
-import store from '../../mobX/store';
+import { observer } from 'mobx-react';
 
+import Spinner from 'react-native-loading-spinner-overlay'
+
+@observer
 class LogInForm extends Component {
 
   constructor(props) {
@@ -19,18 +22,22 @@ class LogInForm extends Component {
 
     this.state = {
       email: null,
-      password: null
+      password: null,
+      localLoading: false
     }
   }
 
   signIn(email, password) {
+    this.setState({ localLoading: true })
     if(email && password) {
       firebaseSignIn(email, password)
         .then(() => {
           this.props.navigator.replace({ id: 'myBoards' })
+          this.setState({ localLoading: false })
         })
         .catch((error) => {
           console.warn(error.message);
+          tthis.setState({ localLoading: false })
         })
     } else {
       console.warn('Check all fields')
@@ -71,6 +78,7 @@ class LogInForm extends Component {
             <Text style={ styles.logInFormBtnTxt }>FORGOT PASSWORD?</Text>
           </TouchableOpacity>
         </View>
+        <Spinner visible={ this.state.localLoading ? true : false } color='#2980b9' size='large' />
     </View>
     )
   }
